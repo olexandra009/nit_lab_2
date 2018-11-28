@@ -13,7 +13,7 @@ import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
 let _makeProduct = require('./modules/product-html');
-
+function makingAllProductsList(){
 jQuery.ajax({
 	url: 'https://nit.tron.net.ua/api/product/list',
 	method: 'get',
@@ -30,7 +30,8 @@ jQuery.ajax({
 	},
 
 });
-
+}
+makingAllProductsList();
 let _makeCategory = require('./modules/category-html');
 
 jQuery.ajax({
@@ -52,6 +53,10 @@ jQuery.ajax({
 
 let _makeCategoryDescription = require('./modules/category-description-html');
 
+$(document).on('click', '.category_list_all_products', function(){
+	$('.insite').empty();
+makingAllProductsList();
+	});
 $(document).on('click', '.category_list', function(){
     var categoryId =$(this).data('categoryId'); 
     console.log(categoryId);
