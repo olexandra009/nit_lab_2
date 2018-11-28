@@ -15,7 +15,7 @@ window.$ = $;
 let _makeProduct = require('./modules/product-html');
 
 jQuery.ajax({
-	url: 'http://nit.tron.net.ua/api/product/list',
+	url: 'https://nit.tron.net.ua/api/product/list',
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
@@ -34,7 +34,7 @@ jQuery.ajax({
 let _makeCategory = require('./modules/category-html');
 
 jQuery.ajax({
-	url: 'http://nit.tron.net.ua/api/category/list',
+	url: 'https://nit.tron.net.ua/api/category/list',
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
@@ -60,7 +60,7 @@ $( ".insite" ).empty();
 
 
 jQuery.ajax({
-	url: ('http://nit.tron.net.ua/api/category/'+categoryId),
+	url: ('https://nit.tron.net.ua/api/category/'+categoryId),
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
@@ -80,7 +80,7 @@ jQuery.ajax({
 
 
 jQuery.ajax({
-	url: ('http://nit.tron.net.ua/api/product/list/category/'+categoryId),
+	url: ('https://nit.tron.net.ua/api/product/list/category/'+categoryId),
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
@@ -108,7 +108,7 @@ let _makeProductView = require('./modules/product-window-html');
 $( ".product-grid" ).empty();
 $( ".insite" ).empty();
 jQuery.ajax({
-	url: ('http://nit.tron.net.ua/api/product/'+productID),
+	url: ('https://nit.tron.net.ua/api/product/'+productID),
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
