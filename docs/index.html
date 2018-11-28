@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en"><head>
+
+	<meta charset="UTF-8">
+
+
+	<title>NIT demo</title>
+
+
+
+	<link rel="stylesheet" href="./css/main.css">
+	
+
+</head>
+
+<body>
+
+<header>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+ <a class="navbar-brand" href="#">
+    <img src="" width="30" height="30" class="d-inline-block align-top" alt="">
+    Shop
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Categories
+        </a>
+        <div class="dropdown-menu category" aria-labelledby="navbarDropdownMenuLink">
+
+       </div>
+      </li>
+    </ul>
+    <span class="navbar-text">
+    <button class="btn btn-outline-success my-2 my-sm-0 cart_button" type="button">Кошик</button>
+
+    </span>
+  </div>
+</nav>
+</header>
+<main role="main">
+	<div class="container">
+		<div class="insite container"> </div>
+		<div class="row product-grid"> 
+	</div>
+</main>
+<div id="cart" class="cart_background hidden">
+<div class="cart container">
+   <span class="cart-title">Товари у кошику</span>
+   <div class="products-cart-grid container">
+    
+   </div>
+   <div id="form" class="form hidden">
+   	<form id="user_data">
+   		<div class="input_field">
+   		<label>Ім'я: </label>
+   		<input type="text" id="name" required>
+   	    </div>
+   	    <div class="input_field">
+   		<label>Номер телефону: </label>
+   		<input type="text" pattern= "[0-9+]{13}" value="+38"title= "only number" name="tel" id="tel" required>
+   	    </div>
+   	    <div class="input_field">
+   		<label>E-mail: </label>
+   		<input type="email" name="email" id="email" required>
+   	    </div>
+   	</form>
+   </div>
+   <div class="summary">
+   	<span>Всього:</span>
+   	<span class="summary_class">0</span>
+   </div>
+   <div class="cart_buttons">
+    <button id="except" class="btn btn-outline-success my-2 my-sm-0 checkout_button">Оформити замовлення</button>
+    <button id="send" class="btn btn-outline-success my-2 my-sm-0 send_button hidden">Відправити замовлення</button>
+   <button class="btn btn-outline-success my-2 my-sm-0 shopping_button">Продовжити покупки</button>
+</div>
+</div>
+
+
+</div>
+
+	<script src="./js/main.js"></script>
+
+
+
+
+
+
+</body></html> 
