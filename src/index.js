@@ -1,29 +1,21 @@
 import 'bootstrap';
 import './scss/main.scss'; 
 
-console.log(`The time is ${new Date()}`);
-require('./modules/hello')('NIT');
-var _foo = require('./modules/hello');
-_foo('user1');
-_foo('user2');
-// 	// with JS!!
-// import 'bootstrap/dist/css/bootstrap.min.css';	// only minified CSS
-
 import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
 let _makeProduct = require('./modules/product-html');
+
+//create list of all products
 function makingAllProductsList(){
 jQuery.ajax({
 	url: 'https://nit.tron.net.ua/api/product/list',
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
-		console.log('Loaded via AJAX!');
-		// console.log(json);
-		console.table(json);
+		
 		json.forEach(product => $('.product-grid').append(_makeProduct(product)));
-		console.log('Added to grid');
+	
 	},
 	error: function(xhr){
 		alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -32,18 +24,17 @@ jQuery.ajax({
 });
 }
 makingAllProductsList();
-let _makeCategory = require('./modules/category-html');
 
+let _makeCategory = require('./modules/category-html');
+//make list categories
 jQuery.ajax({
 	url: 'https://nit.tron.net.ua/api/category/list',
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
-		console.log('Loaded via AJAX!');
-		// console.log(json);
-		console.table(json);
+	
 		json.forEach(category => $('.category').append(_makeCategory(category)));
-		console.log('Added to grid');
+		
 	},
 	error: function(xhr){
 		alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -52,29 +43,36 @@ jQuery.ajax({
 });
 
 let _makeCategoryDescription = require('./modules/category-description-html');
+$(document).on('click','.navbar-brand', function(){
+	$('.insite').empty();
+	$( ".product-grid" ).empty();
+	$(".category_description").empty();
 
+	makingAllProductsList();
+})
+//make list products of category all
 $(document).on('click', '.category_list_all_products', function(){
 	$('.insite').empty();
+	$( ".product-grid" ).empty();
+	$(".category_description").empty();
 makingAllProductsList();
 	});
+//make list products of category
 $(document).on('click', '.category_list', function(){
     var categoryId =$(this).data('categoryId'); 
     console.log(categoryId);
 $( ".product-grid" ).empty();
 $( ".insite" ).empty();
-
+$(".category_description").empty();
 
 jQuery.ajax({
 	url: ('https://nit.tron.net.ua/api/category/'+categoryId),
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
-		console.log('Loaded via AJAX!');
-		// console.log(json);
-		console.table(json);
+		
 	   $('.insite').append(_makeCategoryDescription(json));
-		 
-		console.log('Added to grid');
+	
 	},
 	error: function(xhr){
 		alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -89,11 +87,9 @@ jQuery.ajax({
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
-		console.log('Loaded via AJAX!');
-		// console.log(json);
-		console.table(json);
+		
 		json.forEach(product => $('.product-grid').append(_makeProduct(product)));
-		console.log('Added to grid');
+		
 	},
 	error: function(xhr){
 		alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -102,27 +98,36 @@ jQuery.ajax({
 });
 });
 
-//
+//open product in window
+$(document).on('click', '.product-click-image', function(){
+    var productID =$(this).closest('.production').data('productId'); 
+ wishDiv.className= "cart_background hidden";
+	div.className= "cart_background hidden";
+windowViewProduct(productID);
 
+});
+$(document).on('click', '.title-on-card', function(){
+    var productID =$(this).closest('.production').data('productId'); 
+ wishDiv.className= "cart_background hidden";
+	div.className= "cart_background hidden";
+windowViewProduct(productID);
 
-$(document).on('click', '.product-image', function(){
-    var productID =$(this).closest('.card').data('productId'); 
-    console.log( productID);
-let _makeProductView = require('./modules/product-window-html');
+});
+//function for opening product in window
+function windowViewProduct(productID){
 
-$( ".product-grid" ).empty();
-$( ".insite" ).empty();
+ let _makeProductView = require('./modules/product-window-html');
+    $('.insite').empty();
+	$( ".product-grid" ).empty();
+	$(".category_description").empty();
 jQuery.ajax({
 	url: ('https://nit.tron.net.ua/api/product/'+productID),
 	method: 'get',
 	dataType: 'json',
 	success: function(json){
-		console.log('Loaded via AJAX!');
-		// console.log(json);
-		console.table(json);
+		
 	   $('.insite').append(_makeProductView(json));
-		 
-		console.log('Added to grid');
+		
 	},
 	error: function(xhr){
 		alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -131,11 +136,8 @@ jQuery.ajax({
 });
 
 
-
-});
-
-
-
+}
+//add product to cart
 $(document).on('click', '.product-buy', function(){
 	var productArray=[];
 	var prod ={
@@ -145,9 +147,8 @@ $(document).on('click', '.product-buy', function(){
 	    price: $(this).closest('.production').data('productPrice'), 
 	    special_price: $(this).closest('.production').data('productSpecial'), 
 	}
-	console.log("HERE products "+prod);
+
 	if(localStorage.getItem('productToCart')!==null){
-			console.log("HERE products "+ localStorage.getItem('productToCart'));
 		productArray=JSON.parse(localStorage.getItem('productToCart'));}
 		var f = true;
 	    for (var i = productArray.length - 1; i >= 0; i--) {
@@ -159,21 +160,53 @@ $(document).on('click', '.product-buy', function(){
 		localStorage.setItem('productToCart', JSON.stringify(productArray));
 	}else{
 	alert('had already added to cart');}
-   //localStorage.setItem('prod', JSON.stringify(product));
+   });
+//add products to wish-list
+$(document).on('click', '.product-want', function(){
+	var productWantArray=[];
+	var prod ={
+		id: $(this).closest('.production').data('productId'), 
+	    name:  $(this).closest('.production').data('productName'), 
+	    image_url: $(this).closest('.production').data('productImg'), 
+	    price: $(this).closest('.production').data('productPrice'), 
+	    special_price: $(this).closest('.production').data('productSpecial'), 
+	}
+	if(localStorage.getItem('productToWishList')!==null){
+		productWantArray=JSON.parse(localStorage.getItem('productToWishList'));}
+		var f = true;
+	    for (var i = productWantArray.length - 1; i >= 0; i--) {
+	    	if(parseInt(productWantArray[i].id)==parseInt(prod.id)){ f = false; break;}
+	    }
+	    if(f){
+	     alert('Add to wish-list');
+		productWantArray.push(prod);
+		localStorage.setItem('productToWishList', JSON.stringify(productWantArray));
+	}else{
+	alert('had already added to wish-list');}
+  
    });
 
+//containers for cart and wish-list
 var div = document.getElementById('cart');
+var wishDiv = document.getElementById('wish');
+//product in cart view
 $(document).on('click', '.cart_button', function(){
 	createCart();
 	div.className= "cart_background visible";
 });
+//product in wish-list view
+$(document).on('click', '.wish_button', function(){
+	createWishCart();
+	wishDiv.className= "cart_background visible";
+});
+//button for hidden wish-list and cart view
 $(document).on('click', '.shopping_button', function(){
-	
+	wishDiv.className= "cart_background hidden";
 	div.className= "cart_background hidden";
 });
 
 let _makeCart = require('./modules/cart-html'); 
-
+//function for creating cart
 function createCart(){
 	$( ".products-cart-grid" ).empty();
 	var priceAll = 0;
@@ -191,6 +224,23 @@ $('.summary_class').empty();
  $('.summary_class').text(priceAll);
 }
 
+let _makeWish = require('./modules/wish-html')
+//function for creating wish-list
+function createWishCart(){
+	$( ".products-wish-grid" ).empty();
+
+	if(localStorage.getItem('productToWishList')!==null){
+  var products = JSON.parse(localStorage.getItem('productToWishList'));
+ if(products.length!==0){
+  products.forEach(cart_product => $('.products-wish-grid').append(_makeWish(cart_product))); 
+}else{
+	$('.products-wish-grid').append(`<span>NO PRODUCTS</span>`);
+}
+}else {
+	$('.products-wish-grid').append(`<span>NO PRODUCTS</span>`);
+}
+}
+//to delete product from cart
 $(document).on('click', '.cancel', function(){
 	  var productID =$(this).closest('.production').data('productId'); 
 	  if(localStorage.getItem('productToCart')!==null){
@@ -198,9 +248,6 @@ $(document).on('click', '.cancel', function(){
 	  }
 	  var newProducts =[];
 	  for (var i =products.length - 1; i >= 0; i--) {
-	  	//console.log(products[i]);
-	  	//console.log(productID);
-	    //console.log(products[i].id);
 	    if(products[i].id!==productID){
 	    	console.log('TRUE');
 	    	newProducts.push(products[i]);
@@ -209,9 +256,26 @@ $(document).on('click', '.cancel', function(){
 	 localStorage.setItem('productToCart', JSON.stringify(newProducts));
 	 createCart();
 	});
-var firstButton = document.getElementById('except');
-	var secondButton = document.getElementById('send');
+//to delete product from wish-list
+$(document).on('click', '.cancel_wish', function(){
+	  var productID =$(this).closest('.production').data('productId'); 
+	  if(localStorage.getItem('productToWishList')!==null){
+       var products = JSON.parse(localStorage.getItem('productToWishList'));
+	  }
+	  var newProducts =[];
+	  for (var i =products.length - 1; i >= 0; i--) {
+	    if(products[i].id!==productID){
+	    	console.log('TRUE');
+	    	newProducts.push(products[i]);
+	    }
+	  }
+	 localStorage.setItem('productToWishList', JSON.stringify(newProducts));
+	 createWishCart();
+	});
 
+var firstButton = document.getElementById('except');
+var secondButton = document.getElementById('send');
+//function for making order
 $(document).on('click', '.checkout_button', function(){
   if(localStorage.getItem('productToCart')===null||JSON.parse(localStorage.getItem('productToCart')).length===0){	
 	alert('No products in the cart');
@@ -226,7 +290,7 @@ $(document).on('click', '.checkout_button', function(){
 });
 
 
-
+//function for send order and check form
 $(document).on('click', '.send_button', function(){
 if(localStorage.getItem('productToCart')===null||JSON.parse(localStorage.getItem('productToCart')).length===0){	
 	alert('No products in the cart');

@@ -6,6 +6,8 @@ let _makeHtml = ({
 }) => {
 	let $productView = $(`<p data-product-id="${id}">`);
 	$productView.append($(`<span class="product-title">`).text(name));
+
+	$('.category_description').text("Description: "+description);
 	//$productView.append($(`<button class="product-buy btn btn-outline-success ">`).text("Купити"));
   //	$product.append('<span class="product-title">gjd</span>');
 	return $productView;

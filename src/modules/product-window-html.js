@@ -19,6 +19,7 @@ let _makeHtml = ({
 	  $image.append($(`<span class="price special">`).text(price));
 }
     $image.append($(`<button class="product-buy btn btn-outline-success col-12">`).text("Купити"));
+    $image.append($(`<button class="product-want window_view btn btn-outline-info col-12 ">`).text("Бажання"));
 
     $productView.append($image);
 

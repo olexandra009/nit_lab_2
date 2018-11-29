@@ -9,8 +9,8 @@ let _makeHtml = ({
 	let $product = $(`<div class="card production col-xs-12 col-sm-4 col-md-3" data-product-id="${id}" 
 		data-product-price="${price}"  data-product-special="${special_price}"
 		data-product-img="${image_url}" data-product-name="${name}">`);
-	$product.append($(`<img src="${image_url}" alt="${name}" class="img-fluid product-image">`));
-	$product.append($(`<span class="product-title">`).text(name));
+	$product.append($(`<img src="${image_url}" alt="${name}" class="img-fluid product-click-image product-image">`));
+	$product.append($(`<span class="product-title title-on-card">`).text(name));
 	let $prices = $(`<div class="price row">`);
 
 	$prices.append($(`<span class="product-special-price">`).text(special_price));
@@ -21,7 +21,7 @@ let _makeHtml = ({
 	}
 	$product.append($prices);
 	$product.append($(`<button class="product-buy btn btn-outline-success ">`).text("Купити"));
-//    $product.append($(`<button class="product-want btn btn-outline-secondary ">`).text("Бажання"));
+    $product.append($(`<button class="product-want btn btn-outline-info ">`).text("Бажання"));
 
 
 	return $product;
