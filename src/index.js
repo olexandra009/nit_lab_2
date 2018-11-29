@@ -1,6 +1,5 @@
 import 'bootstrap';
 import './scss/main.scss'; 
-
 import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
@@ -213,16 +212,42 @@ function createCart(){
 	if(localStorage.getItem('productToCart')!==null){
   var products = JSON.parse(localStorage.getItem('productToCart'));
  if(products.length!==0){
-  products.forEach(cart_product => {$('.products-cart-grid').append(_makeCart(cart_product)); if(cart_product.special_price!=null){priceAll+=parseInt(cart_product.special_price);}else{priceAll+=parseInt(cart_product.price);} }); 
+  products.forEach(cart_product => {$('.products-cart-grid').append(_makeCart(cart_product));
+                                  
+                                    	 }); 
+ 
 }else{
 	$('.products-cart-grid').append(`<span>NO PRODUCTS</span>`);
 }
 }else {
 	$('.products-cart-grid').append(`<span>NO PRODUCTS</span>`);
 }
-$('.summary_class').empty();
- $('.summary_class').text(priceAll);
+ calculating();
+
+
 }
+function calculating(){
+ var priceAll = 0;
+	if(localStorage.getItem('productToCart')!==null){
+
+         var products = JSON.parse(localStorage.getItem('productToCart'));
+          if(products.length!==0){
+              products.forEach(cart_product =>
+              { var inp =parseInt(document.getElementById('value_'+cart_product.id).value);
+              if(cart_product.special_price!=null)
+   	          { priceAll+=parseInt(cart_product.special_price)*inp;
+	           }else
+	 {priceAll+=parseInt(cart_product.price)*inp;}
+  });
+          }
+        $('.summary_class').empty();
+ $('.summary_class').text(priceAll);  
+      }
+
+}
+$(document).on('click', '.input_value', function(){
+   calculating();
+});
 
 let _makeWish = require('./modules/wish-html')
 //function for creating wish-list
