@@ -245,7 +245,10 @@ function calculating(){
       }
 
 }
-$(document).on('click', '.input_value', function(){
+$(document).on('change', '.input_value', function(){
+	if($(this)[0].value<0)$(this)[0].value=0;
+	
+	
    calculating();
 });
 
